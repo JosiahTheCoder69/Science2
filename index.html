@@ -41,7 +41,7 @@
             left: 50%;
             width: 60px;
             height: 60px;
-            background-color: blue;
+            background-image: url('https://pngimg.com/d/earth_PNG39.png');
             border-radius: 50%;
             transform: translate(-50%, -50%);
             box-shadow: 0 0 20px rgba(0, 0, 255, 0.8);
@@ -58,6 +58,7 @@
             border-radius: 50%;
             transform: translateY(-50%);
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            cursor: pointer;
         }
 
         /* Eclipse Shadow */
@@ -69,20 +70,7 @@
             background: radial-gradient(circle, rgba(0, 0, 0, 0.8) 20%, transparent 70%);
             border-radius: 50%;
             transform: translateY(-50%);
-            animation: moveShadow 6s infinite;
-        }
-
-        /* Animate the shadow to demonstrate eclipses */
-        @keyframes moveShadow {
-            0% {
-                left: 50%; /* Moon is aligned between Earth and Sun - Solar Eclipse */
-            }
-            50% {
-                left: 50%; /* Earth's shadow covers the Moon - Lunar Eclipse */
-            }
-            100% {
-                left: 50%; /* Return to Solar Eclipse */
-            }
+            visibility: hidden; /* Initially hidden */
         }
 
         .label {
@@ -107,7 +95,6 @@
             top: 120px;
             left: 80%;
         }
-
     </style>
 </head>
 <body>
@@ -118,15 +105,53 @@
         <!-- Earth -->
         <div class="earth"></div>
         <!-- Moon -->
-        <div class="moon"></div>
-        <!-- Eclipse Shadow (moving to demonstrate Solar and Lunar Eclipse) -->
-        <div class="shadow"></div>
+        <div class="moon" id="moon"></div>
+        <!-- Eclipse Shadow -->
+        <div class="shadow" id="shadow"></div>
     </div>
 
     <!-- Labels -->
     <div class="label label-sun">Sun</div>
     <div class="label label-earth">Earth</div>
     <div class="label label-moon">Moon</div>
+
+    <script>
+        const moon = document.getElementById('moon');
+        const shadow = document.getElementById('shadow');
+        let dragging = false;
+
+        moon.addEventListener('mousedown', (e) => {
+            dragging = true;
+        });
+
+        document.addEventListener('mouseup', () => {
+            dragging = false;
+            shadow.style.visibility = 'hidden'; // Hide shadow when released
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (dragging) {
+                const rect = document.querySelector('.solar-system').getBoundingClientRect();
+                let mouseX = e.clientX - rect.left;
+                let mouseY = e.clientY - rect.top;
+
+                // Limit the moon's movement to a certain area
+                const moonX = Math.max(0, Math.min(mouseX - 20, 600 - 40));
+                const moonY = Math.max(0, Math.min(mouseY - 20, 200 - 40));
+
+                moon.style.left = `${moonX}px`;
+                moon.style.top = `${moonY}px`;
+
+                // Check for solar eclipse position (approximately)
+                if (moonX >= 200 && moonX <= 260) { // Adjust these values as needed
+                    shadow.style.visibility = 'visible';
+                    shadow.style.left = `${moonX - 40}px`; // Position shadow
+                } else {
+                    shadow.style.visibility = 'hidden'; // Hide shadow if not aligned
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>
