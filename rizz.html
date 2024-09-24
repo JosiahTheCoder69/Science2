@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eclipses Simulation</title>
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .solar-system {
+            position: relative;
+            width: 600px;
+            height: 200px;
+        }
+
+        /* Sun */
+        .sun {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background-color: yellow;
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(255, 255, 0, 0.8);
+            transform: translateY(-50%);
+        }
+
+        /* Earth */
+        .earth {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            background-color: blue;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.8);
+        }
+
+        /* Moon */
+        .moon {
+            position: absolute;
+            top: 50%;
+            left: 80%;
+            width: 40px;
+            height: 40px;
+            background-color: gray;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Eclipse Shadow */
+        .shadow {
+            position: absolute;
+            top: 50%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.8) 20%, transparent 70%);
+            border-radius: 50%;
+            transform: translateY(-50%);
+            animation: moveShadow 6s infinite;
+        }
+
+        /* Animate the shadow to demonstrate eclipses */
+        @keyframes moveShadow {
+            0% {
+                left: 50%; /* Moon is aligned between Earth and Sun - Solar Eclipse */
+            }
+            50% {
+                left: 50%; /* Earth's shadow covers the Moon - Lunar Eclipse */
+            }
+            100% {
+                left: 50%; /* Return to Solar Eclipse */
+            }
+        }
+
+        .label {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            color: white;
+        }
+
+        .label-sun {
+            top: 120px;
+            left: 0;
+        }
+
+        .label-earth {
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .label-moon {
+            top: 120px;
+            left: 80%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="solar-system">
+        <!-- Sun -->
+        <div class="sun"></div>
+        <!-- Earth -->
+        <div class="earth"></div>
+        <!-- Moon -->
+        <div class="moon"></div>
+        <!-- Eclipse Shadow (moving to demonstrate Solar and Lunar Eclipse) -->
+        <div class="shadow"></div>
+    </div>
+
+    <!-- Labels -->
+    <div class="label label-sun">Sun</div>
+    <div class="label label-earth">Earth</div>
+    <div class="label label-moon">Moon</div>
+
+</body>
+</html>
