@@ -14,6 +14,38 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Space background */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(10,10,30,0.9) 20%, black 80%);
+            z-index: -2;
+        }
+
+        /* Stars */
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/1DcNUlU.png') repeat;
+            animation: stars 100s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes stars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-2000px); }
         }
 
         .solar-system {
@@ -21,6 +53,10 @@
             width: 600px;
             height: 200px;
             margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
         }
 
         /* Sun */
@@ -30,9 +66,9 @@
             left: 0;
             width: 100px;
             height: 100px;
-            background-color: yellow;
+            background: radial-gradient(circle, rgba(255, 255, 100, 1) 10%, rgba(255, 200, 0, 0.9) 70%);
             border-radius: 50%;
-            box-shadow: 0 0 50px rgba(255, 255, 0, 0.8);
+            box-shadow: 0 0 50px rgba(255, 255, 0, 0.9);
             transform: translateY(-50%);
         }
 
@@ -57,10 +93,13 @@
             width: 40px;
             height: 40px;
             background-color: gray;
+            background-image: url('https://i.imgur.com/t6pD5ni.png');
+            background-size: cover;
             border-radius: 50%;
             transform: translateY(-50%);
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         /* Eclipse Shadow */
@@ -80,6 +119,9 @@
             text-align: center;
             width: 100px;
             color: white;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
 
         .label-sun {
@@ -100,6 +142,18 @@
 
         .eclipse-toggle {
             margin-top: 10px;
+            background-color: #222;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .eclipse-toggle:hover {
+            background-color: #555;
         }
     </style>
 </head>
