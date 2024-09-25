@@ -9,6 +9,7 @@
             background-color: #000;
             color: white;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -19,6 +20,7 @@
             position: relative;
             width: 600px;
             height: 200px;
+            margin-bottom: 20px;
         }
 
         /* Sun */
@@ -95,6 +97,10 @@
             top: 120px;
             left: 80%;
         }
+
+        .eclipse-toggle {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -103,7 +109,7 @@
         <!-- Sun -->
         <div class="sun"></div>
         <!-- Earth -->
-        <div class="earth"></div>
+        <div class="earth" id="earth"></div>
         <!-- Moon -->
         <div class="moon" id="moon"></div>
         <!-- Eclipse Shadow -->
@@ -115,12 +121,18 @@
     <div class="label label-earth">Earth</div>
     <div class="label label-moon">Moon</div>
 
+    <!-- Toggle for eclipse type -->
+    <button class="eclipse-toggle" id="toggleEclipse">Switch to Lunar Eclipse</button>
+
     <script>
         const moon = document.getElementById('moon');
+        const earth = document.getElementById('earth');
         const shadow = document.getElementById('shadow');
+        const toggleButton = document.getElementById('toggleEclipse');
         let dragging = false;
+        let isSolarEclipse = true; // Start with solar eclipse
 
-        moon.addEventListener('mousedown', (e) => {
+        moon.addEventListener('mousedown', () => {
             dragging = true;
         });
 
@@ -142,13 +154,38 @@
                 moon.style.left = `${moonX}px`;
                 moon.style.top = `${moonY}px`;
 
-                // Check for solar eclipse position (approximately)
-                if (moonX >= 200 && moonX <= 260) { // Adjust these values as needed
-                    shadow.style.visibility = 'visible';
-                    shadow.style.left = `${moonX - 40}px`; // Position shadow
+                // Check for eclipse position based on the type
+                if (isSolarEclipse) {
+                    // Solar eclipse: Moon is between Sun and Earth
+                    if (moonX >= 200 && moonX <= 260) {
+                        shadow.style.visibility = 'visible';
+                        shadow.style.left = `${moonX - 40}px`; // Position shadow over earth
+                    } else {
+                        shadow.style.visibility = 'hidden'; // Hide shadow if not aligned
+                    }
                 } else {
-                    shadow.style.visibility = 'hidden'; // Hide shadow if not aligned
+                    // Lunar eclipse: Earth is between Sun and Moon
+                    if (moonX >= 350 && moonX <= 410) {
+                        shadow.style.visibility = 'visible';
+                        shadow.style.left = `${earth.offsetLeft}px`; // Shadow is over the moon
+                        shadow.style.top = `${moon.offsetTop}px`;
+                    } else {
+                        shadow.style.visibility = 'hidden';
+                    }
                 }
+            }
+        });
+
+        toggleButton.addEventListener('click', () => {
+            isSolarEclipse = !isSolarEclipse;
+            if (isSolarEclipse) {
+                toggleButton.textContent = "Switch to Lunar Eclipse";
+                moon.style.left = '80%'; // Reset moon to solar eclipse position
+                shadow.style.visibility = 'hidden'; // Hide shadow initially
+            } else {
+                toggleButton.textContent = "Switch to Solar Eclipse";
+                moon.style.left = '80%'; // Reset moon to lunar eclipse start
+                shadow.style.visibility = 'hidden'; // Hide shadow initially
             }
         });
     </script>
